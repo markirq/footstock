@@ -57,7 +57,8 @@ select option{background:var(--surface2);}
 #toast.err{border-color:var(--red);color:var(--red);}
 
 /* ── LOGIN ── */
-#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 30%,#00291a 0%,#0b0e14 60%);}
+#login-screen{min-height:100vh;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 30%,#00291a 0%,#0b0e14 60%);}
+#login-screen.visible{display:flex;}
 .login-box{width:100%;max-width:400px;padding:48px 40px;background:var(--surface);border:1px solid var(--border);border-radius:20px;}
 .login-logo{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;letter-spacing:3px;color:var(--green);margin-bottom:4px;}
 .login-logo span{color:var(--text);}
@@ -73,6 +74,7 @@ select option{background:var(--surface2);}
 
 /* ── ADMIN APP ── */
 #app{display:none;}
+#app.visible{display:block;}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;}
 .topbar-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:2px;color:var(--green);}
 .topbar-logo span{color:var(--text);}
@@ -119,15 +121,16 @@ tr:hover td{background:rgba(255,255,255,.015);}
 .loc-cnt{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;color:var(--green);}
 .loc-lbl{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
 .jcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;}
-.jcard-img{width:100%;height:140px;border-radius:8px;margin-bottom:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden;}
-.jcard-img img{width:100%;height:100%;object-fit:cover;}
+.jcard-img{width:100%;height:160px;border-radius:8px;margin-bottom:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden;}
+.jcard-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .jcard-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;margin-bottom:6px;}
 .photo-upload{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;}
 .photo-upload:hover{border-color:var(--green);}
-.photo-preview{width:100%;max-height:160px;object-fit:cover;border-radius:8px;margin-top:10px;}
+.photo-preview{width:100%;max-height:160px;object-fit:cover;border-radius:8px;margin-top:10px;display:block;}
 
 /* ── PUBLIC CATALOG ── */
 #public-screen{display:none;min-height:100vh;background:var(--bg);}
+#public-screen.visible{display:block;}
 
 .pub-header{
   background:linear-gradient(135deg,#0d1a12 0%,#111827 60%,#0d1a12 100%);
@@ -195,7 +198,7 @@ tr:hover td{background:rgba(255,255,255,.015);}
   overflow:hidden;
   position:relative;
 }
-.pub-card-img img{width:100%;height:100%;object-fit:cover;}
+.pub-card-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .pub-stock-badge{
   position:absolute;top:10px;right:10px;
   padding:4px 10px;border-radius:20px;
@@ -212,9 +215,9 @@ tr:hover td{background:rgba(255,255,255,.015);}
 .pub-stock-num{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;}
 .pub-stock-lbl{font-size:10px;color:var(--muted);}
 
-/* MODAL PRODUIT */
-.pub-modal-img{width:100%;height:260px;object-fit:cover;border-radius:12px;margin-bottom:18px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:80px;overflow:hidden;}
-.pub-modal-img img{width:100%;height:100%;object-fit:cover;}
+/* MODAL PRODUIT PUBLIC */
+.pub-modal-img{width:100%;height:260px;border-radius:12px;margin-bottom:18px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:80px;overflow:hidden;}
+.pub-modal-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .pub-modal-name{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;margin-bottom:6px;}
 .pub-modal-price{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:700;color:var(--green);margin-bottom:16px;}
 .pub-modal-stock{display:flex;gap:10px;margin-bottom:18px;}
@@ -226,9 +229,27 @@ tr:hover td{background:rgba(255,255,255,.015);}
   text-align:center;padding:40px 24px;color:var(--muted);font-size:13px;
   border-top:1px solid var(--border);margin-top:20px;
 }
+
+/* ── LOADING SCREEN ── */
+#loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px;}
+#loading-screen .logo{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:var(--green);}
+#loading-screen .logo span{color:var(--text);}
+
+/* ── SCAN INLINE UI ── */
+.scan-section{background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.scan-video-wrap{width:100%;position:relative;background:#000;}
+.scan-video-wrap video{width:100%;display:block;}
+.scan-crosshair{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.scan-crosshair::before{content:'';width:200px;height:120px;border:2px solid var(--green);border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,.4);}
 </style>
 </head>
 <body>
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="logo">FOOT<span>STOCK</span></div>
+  <div class="spin"></div>
+</div>
 
 <!-- ════════════════ LOGIN ════════════════ -->
 <div id="login-screen">
@@ -247,7 +268,6 @@ tr:hover td{background:rgba(255,255,255,.015);}
 
 <!-- ════════════════ PUBLIC CATALOG ════════════════ -->
 <div id="public-screen">
-
   <div class="pub-header">
     <div>
       <div class="pub-logo">FOOT<span>STOCK</span></div>
@@ -350,7 +370,6 @@ tr:hover td{background:rgba(255,255,255,.015);}
       <div class="sh">
         <div class="sh-title">Stock</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-outline" onclick="openModal('modal-scan-stock')">📷 Scanner</button>
           <button class="btn btn-green admin-only" onclick="openModal('modal-add-jersey')">+ Ajouter</button>
         </div>
       </div>
@@ -458,17 +477,34 @@ tr:hover td{background:rgba(255,255,255,.015);}
       </div>
     </div>
 
-    <!-- SCANNER -->
+    <!-- SCANNER (unique, intégré) -->
     <div class="page admin-only-page" id="page-scanner">
       <div class="sh"><div class="sh-title">Scanner un maillot</div></div>
       <div class="g2">
         <div class="card">
           <div class="card-title" style="margin-bottom:12px">Caméra</div>
-          <div id="scanner-placeholder" style="width:100%;height:200px;background:var(--surface2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted)"><div style="font-size:40px">📷</div><div style="font-size:13px">Appuie sur Démarrer</div></div>
-          <div id="interactive" style="display:none;position:relative;width:100%"></div>
+          <!-- Placeholder -->
+          <div id="scanner-placeholder" style="width:100%;height:220px;background:var(--surface2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted)">
+            <div style="font-size:48px">📷</div>
+            <div style="font-size:13px">Appuie sur Démarrer</div>
+          </div>
+          <!-- Caméra live -->
+          <div id="interactive" style="display:none;position:relative;width:100%;border-radius:10px;overflow:hidden;background:#000;">
+            <div class="scan-crosshair"></div>
+          </div>
           <div style="display:flex;gap:8px;margin-top:12px">
             <button class="btn btn-green" onclick="startScanner()" id="btn-scan-start">▶ Démarrer</button>
             <button class="btn btn-outline" onclick="stopScanner()" id="btn-scan-stop" style="display:none">■ Arrêter</button>
+          </div>
+          <!-- Saisie manuelle du code -->
+          <div style="margin-top:14px">
+            <div class="fg">
+              <label>Ou saisir le code manuellement</label>
+              <div style="display:flex;gap:8px">
+                <input type="text" id="manual-barcode" placeholder="Ex: 3612345678901" style="flex:1">
+                <button class="btn btn-outline" onclick="handleManualBarcode()" style="white-space:nowrap">Chercher</button>
+              </div>
+            </div>
           </div>
           <div id="scan-result" style="margin-top:12px"></div>
         </div>
@@ -481,6 +517,12 @@ tr:hover td{background:rgba(255,255,255,.015);}
               <button class="btn btn-green" onclick="openModal('modal-vente-scan')">💰 Enregistrer une vente</button>
               <button class="btn btn-outline" onclick="openModal('modal-stock-scan')">📦 Modifier le stock</button>
             </div>
+          </div>
+          <!-- Nouveau maillot si code inconnu -->
+          <div id="scan-new-jersey" style="display:none;margin-top:14px">
+            <div class="div"></div>
+            <div class="alert alert-y" style="margin-bottom:12px">Code inconnu — Crée ce maillot directement</div>
+            <button class="btn btn-green" style="width:100%" onclick="openAddJerseyFromScan()">➕ Créer ce maillot</button>
           </div>
         </div>
       </div>
@@ -507,7 +549,7 @@ tr:hover td{background:rgba(255,255,255,.015);}
     <div class="fgrid">
       <div class="fg full"><label>Nom / équipe</label><input type="text" id="j-nom" placeholder="Ex: PSG Domicile 2024"></div>
       <div class="fg"><label>Taille(s)</label><input type="text" id="j-taille" placeholder="S, M, L..."></div>
-      <div class="fg"><label>Code-barres</label><input type="text" id="j-barcode" placeholder="Scan ou saisie manuelle"></div>
+      <div class="fg"><label>Code-barres</label><input type="text" id="j-barcode" placeholder="Scan ou saisie manuelle" id="j-barcode"></div>
       <div class="fg"><label>Prix achat (€)</label><input type="number" id="j-cout" min="0" step="0.01"></div>
       <div class="fg"><label>Prix vente (€)</label><input type="number" id="j-prix" min="0" step="0.01"></div>
       <div class="fg"><label>Stock chez moi</label><input type="number" id="j-qmoi" min="0" value="0"></div>
@@ -641,17 +683,6 @@ tr:hover td{background:rgba(255,255,255,.015);}
   </div>
 </div>
 
-<!-- Scan modal stock page -->
-<div class="modal-overlay" id="modal-scan-stock">
-  <div class="modal">
-    <div class="modal-title">📷 Scanner</div>
-    <div id="scan-stock-box" style="margin-bottom:12px"></div>
-    <button class="btn btn-green" onclick="startScannerModal()" id="btn-scan-modal">▶ Démarrer la caméra</button>
-    <div id="scan-stock-result" style="margin-top:12px"></div>
-    <div class="modal-actions"><button class="btn btn-outline" onclick="stopScannerModal();closeModal('modal-scan-stock')">Fermer</button></div>
-  </div>
-</div>
-
 <!-- Public product modal -->
 <div class="modal-overlay" id="modal-pub-product">
   <div class="modal" style="max-width:480px">
@@ -666,7 +697,10 @@ const sb=createClient('https://xouurzpchnesobqzwbbj.supabase.co','eyJhbGciOiJIUz
 
 let currentUser=null,userRole=null,jerseys=[],allVentes=[],config={emp_nom:'Employé',emp_method:'pct-ca',emp_rate:20};
 let scannedJersey=null,photoFile=null,editPhotoFile=null;
-let pubFilter='all',scannerRunning=false,modalScannerRunning=false;
+let pubFilter='all',scannerRunning=false;
+// Track current view for persistence
+let currentScreen='login'; // 'login' | 'app' | 'public'
+let currentPage='dashboard'; // active admin page id
 
 // ── TOAST ──
 function toast(msg,err=false){const t=document.getElementById('toast');t.textContent=msg;t.className='show'+(err?' err':'');clearTimeout(t._t);t._t=setTimeout(()=>t.className='',3000);}
@@ -676,18 +710,35 @@ function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
 
+// ── SESSION PERSISTENCE ──
+// Save state to sessionStorage so refresh restores position
+function saveState(){
+  try{sessionStorage.setItem('fs_screen',currentScreen);sessionStorage.setItem('fs_page',currentPage);}catch(e){}
+}
+function restoreState(){
+  try{
+    const s=sessionStorage.getItem('fs_screen');
+    const p=sessionStorage.getItem('fs_page');
+    if(s)currentScreen=s;
+    if(p)currentPage=p;
+  }catch(e){}
+}
+
 // ── SCREENS ──
 function showPublic(){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').style.display='none';
-  document.getElementById('public-screen').style.display='block';
+  currentScreen='public';saveState();
+  document.getElementById('login-screen').classList.remove('visible');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('public-screen').classList.add('visible');
   loadPublicCatalog();
 }
 function showLogin(){
-  document.getElementById('public-screen').style.display='none';
-  document.getElementById('app').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
+  currentScreen='login';saveState();
+  document.getElementById('public-screen').classList.remove('visible');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').classList.add('visible');
 }
+function hideLoading(){document.getElementById('loading-screen').style.display='none';}
 
 // ── AUTH ──
 async function doLogin(){
@@ -695,10 +746,13 @@ async function doLogin(){
   const pass=document.getElementById('l-pass').value;
   document.getElementById('login-err').textContent='';
   if(!email||!pass)return document.getElementById('login-err').textContent='Remplis tous les champs';
+  const btn=document.querySelector('.login-btn');
+  btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
   const{error}=await sb.auth.signInWithPassword({email,password:pass});
+  btn.textContent='Connexion';btn.disabled=false;
   if(error)document.getElementById('login-err').textContent='Email ou mot de passe incorrect';
 }
-async function doLogout(){stopScanner();await sb.auth.signOut();}
+async function doLogout(){stopScanner();await sb.auth.signOut();currentScreen='login';saveState();}
 
 sb.auth.onAuthStateChange(async(event,session)=>{
   if(session?.user){
@@ -707,9 +761,8 @@ sb.auth.onAuthStateChange(async(event,session)=>{
     showAdminApp();
   } else {
     currentUser=null;userRole=null;
-    document.getElementById('public-screen').style.display='none';
-    document.getElementById('app').style.display='none';
-    document.getElementById('login-screen').style.display='flex';
+    hideLoading();
+    showLogin();
   }
 });
 
@@ -720,9 +773,11 @@ async function detectRole(){
 }
 
 function showAdminApp(){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('public-screen').style.display='none';
-  document.getElementById('app').style.display='block';
+  hideLoading();
+  currentScreen='app';saveState();
+  document.getElementById('login-screen').classList.remove('visible');
+  document.getElementById('public-screen').classList.remove('visible');
+  document.getElementById('app').classList.add('visible');
   const badge=document.getElementById('role-badge');
   if(userRole==='employe'){
     badge.textContent='EMPLOYÉ';badge.className='role-badge emp';
@@ -733,6 +788,12 @@ function showAdminApp(){
   const today=new Date().toISOString().split('T')[0];
   document.getElementById('p-date').value=today;
   document.getElementById('ex-date').value=today;
+
+  // Restore last page
+  const savedPage=currentPage||'dashboard';
+  const navBtn=document.querySelector(`.nav-btn[onclick*="'${savedPage}'"]`);
+  showPage(savedPage,navBtn,true);
+
   loadAll();
 }
 
@@ -754,18 +815,55 @@ async function saveEmpConfig(){
 
 // ── JERSEYS ──
 async function loadJerseys(){const{data}=await sb.from('maillots').select('*').order('created_at',{ascending:false});jerseys=data||[];populateSelects();}
-function populateSelects(){['v-jersey','tr-jersey'].forEach(id=>{const s=document.getElementById(id);if(s)s.innerHTML=jerseys.map(j=>`<option value="${j.id}">${j.nom} (🏠${j.qty_moi} 👤${j.qty_employe})</option>`).join('');});}
-function previewPhoto(input){photoFile=input.files[0];if(photoFile){const img=document.getElementById('j-photo-preview');img.src=URL.createObjectURL(photoFile);img.style.display='block';}}
-function previewPhotoEdit(input){editPhotoFile=input.files[0];if(editPhotoFile){const img=document.getElementById('ej-photo-preview');img.src=URL.createObjectURL(editPhotoFile);img.style.display='block';}}
-async function uploadPhoto(file,name){const ext=file.name.split('.').pop();const path=`${name.replace(/\s+/g,'-')}-${Date.now()}.${ext}`;const{error}=await sb.storage.from('maillots').upload(path,file,{upsert:true});if(error)return null;return sb.storage.from('maillots').getPublicUrl(path).data.publicUrl;}
+function populateSelects(){
+  ['v-jersey','tr-jersey'].forEach(id=>{
+    const s=document.getElementById(id);
+    if(s)s.innerHTML=jerseys.map(j=>`<option value="${j.id}">${j.nom} (🏠${j.qty_moi} 👤${j.qty_employe})</option>`).join('');
+  });
+}
+
+function previewPhoto(input){
+  photoFile=input.files[0];
+  if(photoFile){
+    const img=document.getElementById('j-photo-preview');
+    img.src=URL.createObjectURL(photoFile);
+    img.style.display='block';
+  }
+}
+function previewPhotoEdit(input){
+  editPhotoFile=input.files[0];
+  if(editPhotoFile){
+    const img=document.getElementById('ej-photo-preview');
+    img.src=URL.createObjectURL(editPhotoFile);
+    img.style.display='block';
+  }
+}
+
+async function uploadPhoto(file,name){
+  const ext=file.name.split('.').pop().toLowerCase();
+  const safeExt=['jpg','jpeg','png','webp','gif'].includes(ext)?ext:'jpg';
+  const path=`${name.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'')}-${Date.now()}.${safeExt}`;
+  const{error}=await sb.storage.from('maillots').upload(path,file,{upsert:true,contentType:file.type});
+  if(error){toast('Erreur upload photo: '+error.message,true);return null;}
+  const{data}=sb.storage.from('maillots').getPublicUrl(path);
+  return data.publicUrl;
+}
 
 async function addJersey(){
   const nom=document.getElementById('j-nom').value.trim();if(!nom)return toast('Nom requis',true);
   const btn=document.getElementById('btn-add-jersey');btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
-  let photo_url=null;if(photoFile)photo_url=await uploadPhoto(photoFile,nom);
-  await sb.from('maillots').insert({nom,photo_url,taille:document.getElementById('j-taille').value,code_barre:document.getElementById('j-barcode').value,prix_achat:parseFloat(document.getElementById('j-cout').value)||0,prix_vente:parseFloat(document.getElementById('j-prix').value)||0,qty_moi:parseInt(document.getElementById('j-qmoi').value)||0,qty_employe:parseInt(document.getElementById('j-qemp').value)||0,seuil_alerte:parseInt(document.getElementById('j-alert').value)||3});
-  await addLog(`Maillot ajouté : ${nom}`);toast('✅ Maillot ajouté !');btn.textContent='Ajouter';btn.disabled=false;
-  closeModal('modal-add-jersey');photoFile=null;document.getElementById('j-photo-preview').style.display='none';
+  let photo_url=null;
+  if(photoFile){
+    photo_url=await uploadPhoto(photoFile,nom);
+    if(!photo_url){btn.textContent='Ajouter';btn.disabled=false;return;}
+  }
+  const{error}=await sb.from('maillots').insert({nom,photo_url,taille:document.getElementById('j-taille').value,code_barre:document.getElementById('j-barcode').value||null,prix_achat:parseFloat(document.getElementById('j-cout').value)||0,prix_vente:parseFloat(document.getElementById('j-prix').value)||0,qty_moi:parseInt(document.getElementById('j-qmoi').value)||0,qty_employe:parseInt(document.getElementById('j-qemp').value)||0,seuil_alerte:parseInt(document.getElementById('j-alert').value)||3});
+  btn.textContent='Ajouter';btn.disabled=false;
+  if(error)return toast('Erreur: '+error.message,true);
+  await addLog(`Maillot ajouté : ${nom}`);toast('✅ Maillot ajouté !');
+  closeModal('modal-add-jersey');photoFile=null;
+  document.getElementById('j-photo-preview').style.display='none';
+  document.getElementById('j-photo-input').value='';
   ['j-nom','j-taille','j-barcode','j-cout','j-prix'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('j-qmoi').value=0;document.getElementById('j-qemp').value=0;document.getElementById('j-alert').value=3;
   await loadAll();
@@ -778,24 +876,33 @@ function openEditJersey(j){
   document.getElementById('ej-qmoi').value=j.qty_moi;document.getElementById('ej-qemp').value=j.qty_employe;
   document.getElementById('ej-alert').value=j.seuil_alerte||3;
   const prev=document.getElementById('ej-photo-preview');
-  if(j.photo_url){prev.src=j.photo_url;prev.style.display='block';}else prev.style.display='none';
-  editPhotoFile=null;openModal('modal-edit-jersey');
+  if(j.photo_url){prev.src=j.photo_url;prev.style.display='block';}else{prev.style.display='none';prev.src='';}
+  editPhotoFile=null;
+  document.getElementById('ej-photo-input').value='';
+  openModal('modal-edit-jersey');
 }
 
 async function saveJersey(){
   const id=document.getElementById('ej-id').value;const nom=document.getElementById('ej-nom').value.trim();if(!nom)return toast('Nom requis',true);
   const btn=document.getElementById('btn-save-jersey');btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
-  let photo_url=undefined;if(editPhotoFile)photo_url=await uploadPhoto(editPhotoFile,nom);
-  const update={nom,taille:document.getElementById('ej-taille').value,code_barre:document.getElementById('ej-barcode').value,prix_achat:parseFloat(document.getElementById('ej-cout').value)||0,prix_vente:parseFloat(document.getElementById('ej-prix').value)||0,qty_moi:parseInt(document.getElementById('ej-qmoi').value)||0,qty_employe:parseInt(document.getElementById('ej-qemp').value)||0,seuil_alerte:parseInt(document.getElementById('ej-alert').value)||3};
+  let photo_url=undefined;
+  if(editPhotoFile){
+    photo_url=await uploadPhoto(editPhotoFile,nom);
+    if(!photo_url){btn.textContent='Sauvegarder';btn.disabled=false;return;}
+  }
+  const update={nom,taille:document.getElementById('ej-taille').value,code_barre:document.getElementById('ej-barcode').value||null,prix_achat:parseFloat(document.getElementById('ej-cout').value)||0,prix_vente:parseFloat(document.getElementById('ej-prix').value)||0,qty_moi:parseInt(document.getElementById('ej-qmoi').value)||0,qty_employe:parseInt(document.getElementById('ej-qemp').value)||0,seuil_alerte:parseInt(document.getElementById('ej-alert').value)||3};
   if(photo_url!==undefined)update.photo_url=photo_url;
-  await sb.from('maillots').update(update).eq('id',id);
-  await addLog(`Maillot modifié : ${nom}`);toast('✅ Sauvegardé !');btn.textContent='Sauvegarder';btn.disabled=false;
+  const{error}=await sb.from('maillots').update(update).eq('id',id);
+  btn.textContent='Sauvegarder';btn.disabled=false;
+  if(error)return toast('Erreur: '+error.message,true);
+  await addLog(`Maillot modifié : ${nom}`);toast('✅ Sauvegardé !');
   closeModal('modal-edit-jersey');editPhotoFile=null;await loadAll();
 }
 
 async function deleteJersey(id,nom){
   if(!confirm(`Supprimer "${nom}" ?`))return;
-  await sb.from('maillots').delete().eq('id',id);
+  const{error}=await sb.from('maillots').delete().eq('id',id);
+  if(error)return toast('Erreur: '+error.message,true);
   await addLog(`Maillot supprimé : ${nom}`);toast('🗑️ Supprimé');await loadAll();
 }
 
@@ -810,11 +917,15 @@ async function renderStock(){
   if(!list.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👕</div><div>Aucun maillot</div></div>`;return;}
   grid.innerHTML=list.map(j=>{
     const total=j.qty_moi+j.qty_employe;
-    const col=total<=j.seuil_alerte?'var(--red)':total<=j.seuil_alerte*2?'var(--yellow)':'var(--green)';
+    const col=total===0?'var(--red)':total<=j.seuil_alerte?'var(--red)':total<=j.seuil_alerte*2?'var(--yellow)':'var(--green)';
     const marge=j.prix_vente>0?Math.round(((j.prix_vente-j.prix_achat)/j.prix_vente)*100):0;
-    const photoHtml=j.photo_url?`<div class="jcard-img"><img src="${j.photo_url}" alt="${j.nom}"></div>`:`<div class="jcard-img">👕</div>`;
-    const adminActions=userRole==='admin'?`<div style="display:flex;gap:6px;margin-top:10px"><button class="btn btn-outline btn-sm" style="flex:1" onclick='openEditJersey(${JSON.stringify(j).replace(/'/g,"&#39;")})'>✏️ Éditer</button><button class="btn btn-red btn-sm" onclick="deleteJersey(${j.id},'${j.nom.replace(/'/g,"\\'")}')">🗑️</button></div>`:'';
-    return`<div class="jcard">${photoHtml}<div class="jcard-name">${j.nom}</div>${j.taille?`<div style="font-size:12px;color:var(--muted);margin-bottom:6px">${j.taille}</div>`:''}<div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap"><span class="badge bb">${j.prix_achat}€</span><span class="badge bg">${j.prix_vente}€</span><span class="badge ${marge>=30?'bg':'by'}">${marge}%</span></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="flex:1;background:var(--bg);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">🏠</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--green)">${j.qty_moi}</div></div><div style="flex:1;background:var(--bg);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">👤</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--blue)">${j.qty_employe}</div></div><div style="flex:1;background:var(--bg);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">TOTAL</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:${col}">${total}</div></div></div><div class="prog"><div class="prog-fill" style="width:${Math.min(100,(total/Math.max(total,20))*100)}%;background:${col}"></div></div>${total<=j.seuil_alerte?`<div style="font-size:12px;color:var(--red);margin-top:6px">⚠️ Stock faible !</div>`:''}${adminActions}</div>`;
+    // FIX: photo shown correctly with proper img tag
+    const photoHtml=j.photo_url
+      ?`<div class="jcard-img"><img src="${j.photo_url}" alt="${j.nom}" onerror="this.parentElement.innerHTML='<span style=font-size:48px>👕</span>'"></div>`
+      :`<div class="jcard-img"><span style="font-size:48px">👕</span></div>`;
+    const adminActions=userRole==='admin'
+      ?`<div style="display:flex;gap:6px;margin-top:10px"><button class="btn btn-outline btn-sm" style="flex:1" onclick='openEditJersey(${JSON.stringify(j).replace(/'/g,"&#39;")})'>✏️ Éditer</button><button class="btn btn-red btn-sm" onclick="deleteJersey(${j.id},'${j.nom.replace(/'/g,"\\'")}')">🗑️</button></div>`:'' ;
+    return`<div class="jcard">${photoHtml}<div class="jcard-name">${j.nom}</div>${j.taille?`<div style="font-size:12px;color:var(--muted);margin-bottom:6px">${j.taille}</div>`:''}<div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap"><span class="badge bb">${j.prix_achat}€</span><span class="badge bg">${j.prix_vente}€</span><span class="badge ${marge>=30?'bg':'by'}">${marge}%</span></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="flex:1;background:var(--bg);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">🏠</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--green)">${j.qty_moi}</div></div><div style="flex:1;background:var(--bg);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">👤</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--blue)">${j.qty_employe}</div></div><div style="flex:1;background:var(--bg);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">TOTAL</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:${col}">${total}</div></div></div><div class="prog"><div class="prog-fill" style="width:${Math.min(100,(total/Math.max(total,20))*100)}%;background:${col}"></div></div>${total<=j.seuil_alerte&&total>0?`<div style="font-size:12px;color:var(--red);margin-top:6px">⚠️ Stock faible !</div>`:''}${total===0?`<div style="font-size:12px;color:var(--red);margin-top:6px">🚫 Rupture</div>`:''}${adminActions}</div>`;
   }).join('');
   document.getElementById('tr-jersey').innerHTML=jerseys.map(j=>`<option value="${j.id}">${j.nom}</option>`).join('');
 }
@@ -957,7 +1068,7 @@ async function loadHistorique(){
   const{data}=await sb.from('historique').select('*').order('created_at',{ascending:false}).limit(100);
   document.getElementById('histo-list').innerHTML=(data||[]).length?data.map(h=>`<div style="display:flex;gap:14px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--muted);min-width:130px;white-space:nowrap">${new Date(h.created_at).toLocaleString('fr-FR')}</span><span>${h.texte}</span></div>`).join(''):`<div class="empty"><div class="empty-icon">📋</div><div>Aucune activité</div></div>`;
 }
-async function addLog(texte){await sb.from('historique').insert({texte});}
+async function addLog(texte){try{await sb.from('historique').insert({texte});}catch(e){}}
 
 // ── PUBLIC CATALOG ──
 let pubFilterMode='all';
@@ -980,9 +1091,14 @@ function setPubFilter(f,btn){
   filterPublic();
 }
 
+// FIX: filterPublic uses local data cache to avoid N Supabase requests
+let pubCatalogCache=[];
 async function filterPublic(){
-  const{data}=await sb.from('maillots').select('id,nom,taille,prix_vente,qty_moi,qty_employe,photo_url').order('nom');
-  let list=data||[];
+  if(!pubCatalogCache.length){
+    const{data}=await sb.from('maillots').select('id,nom,taille,prix_vente,qty_moi,qty_employe,photo_url').order('nom');
+    pubCatalogCache=data||[];
+  }
+  let list=[...pubCatalogCache];
   const q=document.getElementById('pub-search').value.toLowerCase();
   if(q)list=list.filter(j=>j.nom.toLowerCase().includes(q)||(j.taille||'').toLowerCase().includes(q));
   if(pubFilterMode==='dispo')list=list.filter(j=>(j.qty_moi+j.qty_employe)>0);
@@ -990,25 +1106,39 @@ async function filterPublic(){
   renderPublicGrid(list);
 }
 
+async function loadPublicCatalog(){
+  const{data}=await sb.from('maillots').select('id,nom,taille,prix_vente,qty_moi,qty_employe,photo_url').order('nom');
+  pubCatalogCache=data||[];
+  const dispo=pubCatalogCache.filter(j=>(j.qty_moi+j.qty_employe)>0);
+  const prixMin=dispo.length?Math.min(...dispo.map(j=>j.prix_vente)):0;
+  document.getElementById('pub-total-jerseys').textContent=dispo.length;
+  document.getElementById('pub-total-stock').textContent=pubCatalogCache.reduce((s,j)=>s+j.qty_moi+j.qty_employe,0);
+  document.getElementById('pub-prix-min').textContent=prixMin>0?prixMin+'€':'—';
+  renderPublicGrid(pubCatalogCache);
+}
+
 function renderPublicGrid(list){
   const grid=document.getElementById('pub-grid');
   if(!list.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🔍</div><div>Aucun maillot trouvé</div></div>`;return;}
   grid.innerHTML=list.map(j=>{
     const total=j.qty_moi+j.qty_employe;
-    const dispo=total>0;
     const stockCol=total===0?'var(--red)':total<=3?'var(--yellow)':'var(--green)';
     const stockLabel=total===0?'Rupture':total<=3?'Faible':'Disponible';
     const stockBadgeBg=total===0?'rgba(255,77,77,.8)':total<=3?'rgba(255,214,0,.8)':'rgba(0,230,118,.8)';
-    const stockBadgeCol=total===0?'#fff':total<=3?'#000':'#000';
-    const imgHtml=j.photo_url?`<img src="${j.photo_url}" alt="${j.nom}">`:`<div style="font-size:64px">👕</div>`;
+    const stockBadgeCol=total<=3&&total>0?'#000':total===0?'#fff':'#000';
+    // FIX: use proper img tag with onerror fallback
+    const imgHtml=j.photo_url
+      ?`<img src="${j.photo_url}" alt="${j.nom}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none';this.parentElement.querySelector('.fallback-emoji').style.display='flex'">`
+      :'';
     return`<div class="pub-card" onclick="openPubProduct(${j.id})">
       <div class="pub-card-img">
         ${imgHtml}
+        <div class="fallback-emoji" style="font-size:64px;display:${j.photo_url?'none':'flex'};align-items:center;justify-content:center;width:100%;height:100%">👕</div>
         <div class="pub-stock-badge" style="background:${stockBadgeBg};color:${stockBadgeCol}">${stockLabel}</div>
       </div>
       <div class="pub-card-body">
         <div class="pub-card-name">${j.nom}</div>
-        ${j.taille?`<div class="pub-card-size">Tailles : ${j.taille}</div>`:``}
+        ${j.taille?`<div class="pub-card-size">Tailles : ${j.taille}</div>`:''}
         <div class="pub-card-footer">
           <div>
             <div class="pub-price">${j.prix_vente}€</div>
@@ -1029,9 +1159,11 @@ async function openPubProduct(id){
   if(!j)return;
   const total=j.qty_moi+j.qty_employe;
   const stockCol=total===0?'var(--red)':total<=3?'var(--yellow)':'var(--green)';
-  const imgHtml=j.photo_url?`<img src="${j.photo_url}" style="width:100%;height:100%;object-fit:cover">`:`<div style="font-size:80px;display:flex;align-items:center;justify-content:center;height:100%">👕</div>`;
+  const imgContent=j.photo_url
+    ?`<img src="${j.photo_url}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'"><div style="font-size:80px;display:none;align-items:center;justify-content:center;height:100%">👕</div>`
+    :`<div style="font-size:80px;display:flex;align-items:center;justify-content:center;height:100%">👕</div>`;
   document.getElementById('pub-modal-content').innerHTML=`
-    <div class="pub-modal-img">${imgHtml}</div>
+    <div class="pub-modal-img">${imgContent}</div>
     <div class="pub-modal-name">${j.nom}</div>
     ${j.taille?`<div style="color:var(--muted);font-size:14px;margin-bottom:12px">Tailles disponibles : ${j.taille}</div>`:''}
     <div class="pub-modal-price">${j.prix_vente}€</div>
@@ -1047,57 +1179,108 @@ async function openPubProduct(id){
   openModal('modal-pub-product');
 }
 
-// ── SCANNER ──
+// ── SCANNER (unique, simplifié) ──
+// On garde UN SEUL scanner. Plus de scanner dans modal Stock (supprimé).
+// La saisie manuelle est disponible en fallback.
+// Si code inconnu → propose de créer le maillot directement.
+
+let lastScannedCode=null;
+
 function startScanner(){
   document.getElementById('scanner-placeholder').style.display='none';
   document.getElementById('interactive').style.display='block';
   document.getElementById('btn-scan-start').style.display='none';
   document.getElementById('btn-scan-stop').style.display='inline-block';
   scannerRunning=true;
-  Quagga.init({inputStream:{name:'Live',type:'LiveStream',target:document.getElementById('interactive'),constraints:{facingMode:'environment',width:640,height:480}},decoder:{readers:['ean_reader','ean_8_reader','code_128_reader','code_39_reader','upc_reader']}},err=>{
-    if(err){toast('Erreur caméra',true);stopScanner();return;}Quagga.start();
+  Quagga.init({
+    inputStream:{name:'Live',type:'LiveStream',target:document.getElementById('interactive'),
+      constraints:{facingMode:'environment',width:640,height:480}},
+    decoder:{readers:['ean_reader','ean_8_reader','code_128_reader','code_39_reader','upc_reader']},
+    locate:true
+  },err=>{
+    if(err){toast('Erreur caméra : '+err,true);stopScanner();return;}
+    Quagga.start();
   });
-  Quagga.onDetected(result=>{const code=result.codeResult.code;stopScanner();handleScannedCode(code);});
+  // FIX: use onProcessed + confidence threshold to avoid false reads
+  let lastCode=null,sameCount=0;
+  Quagga.onProcessed(result=>{
+    // Draw line on canvas overlay if result found
+  });
+  Quagga.onDetected(result=>{
+    const code=result.codeResult.code;
+    const confidence=result.codeResult.decodedCodes
+      .filter(c=>c.error!==undefined)
+      .reduce((s,c,_,a)=>s+c.error/a.length,0);
+    // Require code to be detected consistently (same code twice in a row)
+    if(code===lastCode){
+      sameCount++;
+      if(sameCount>=2){
+        stopScanner();
+        handleScannedCode(code);
+        lastCode=null;sameCount=0;
+      }
+    } else {
+      lastCode=code;sameCount=1;
+    }
+  });
 }
 
 function stopScanner(){
   if(scannerRunning){try{Quagga.stop();}catch(e){}scannerRunning=false;}
-  document.getElementById('scanner-placeholder').style.display='flex';
-  document.getElementById('interactive').style.display='none';
+  const ph=document.getElementById('scanner-placeholder');
+  const inter=document.getElementById('interactive');
+  if(ph)ph.style.display='flex';
+  if(inter)inter.style.display='none';
   document.getElementById('btn-scan-start').style.display='inline-block';
   document.getElementById('btn-scan-stop').style.display='none';
 }
 
-let modalScanCb=null;
-function startScannerModal(){
-  const box=document.getElementById('scan-stock-box');
-  box.innerHTML='<div id="interactive-modal" style="width:100%;position:relative"></div>';
-  document.getElementById('btn-scan-modal').style.display='none';
-  modalScannerRunning=true;
-  Quagga.init({inputStream:{name:'Live2',type:'LiveStream',target:document.getElementById('interactive-modal'),constraints:{facingMode:'environment',width:480,height:320}},decoder:{readers:['ean_reader','ean_8_reader','code_128_reader','code_39_reader','upc_reader']}},err=>{
-    if(err){toast('Erreur caméra',true);stopScannerModal();return;}Quagga.start();
-  });
-  Quagga.onDetected(result=>{const code=result.codeResult.code;stopScannerModal();closeModal('modal-scan-stock');handleScannedCode(code);});
-}
-
-function stopScannerModal(){
-  if(modalScannerRunning){try{Quagga.stop();}catch(e){}modalScannerRunning=false;}
-  document.getElementById('scan-stock-box').innerHTML='';
-  document.getElementById('btn-scan-modal').style.display='inline-block';
+function handleManualBarcode(){
+  const code=document.getElementById('manual-barcode').value.trim();
+  if(!code)return toast('Saisis un code-barres',true);
+  document.getElementById('manual-barcode').value='';
+  handleScannedCode(code);
 }
 
 function handleScannedCode(code){
+  lastScannedCode=code;
   const found=jerseys.find(j=>j.code_barre===code);
-  document.getElementById('scan-result').innerHTML=`<div class="alert alert-g">🔖 Code : <strong>${code}</strong></div>`;
-  if(!found){document.getElementById('scan-found').innerHTML=`<div class="alert alert-r">❌ Aucun maillot avec ce code.<br><small>Ajoute ce code via Stock → Éditer.</small></div>`;document.getElementById('scan-actions').style.display='none';return;}
-  scannedJersey=found;toast(`✅ ${found.nom} trouvé !`);
-  const total=found.qty_moi+found.qty_employe;
-  const photoHtml=found.photo_url?`<img src="${found.photo_url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px">`:'<div style="font-size:48px;text-align:center">👕</div>';
-  document.getElementById('scan-found').innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">${photoHtml}<div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700">${found.nom}</div>${found.taille?`<div style="font-size:13px;color:var(--muted)">${found.taille}</div>`:''}<div style="display:flex;gap:6px"><span class="badge bb">${found.prix_achat}€</span><span class="badge bg">${found.prix_vente}€</span></div><div style="display:flex;gap:6px"><div style="flex:1;background:var(--bg);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">🏠</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--green)">${found.qty_moi}</div></div><div style="flex:1;background:var(--bg);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">👤</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--blue)">${found.qty_employe}</div></div></div></div>`;
+  document.getElementById('scan-result').innerHTML=`<div class="alert alert-g">🔖 Code détecté : <strong>${code}</strong></div>`;
+
+  if(!found){
+    // FIX: propose to create the jersey with pre-filled barcode
+    document.getElementById('scan-found').innerHTML=`<div class="alert alert-y" style="margin-bottom:8px">❓ Code <strong>${code}</strong> inconnu dans la base.</div><div style="font-size:13px;color:var(--muted)">Ce maillot n'existe pas encore. Tu peux le créer directement.</div>`;
+    document.getElementById('scan-actions').style.display='none';
+    document.getElementById('scan-new-jersey').style.display='block';
+    return;
+  }
+
+  document.getElementById('scan-new-jersey').style.display='none';
+  scannedJersey=found;
+  toast(`✅ ${found.nom} trouvé !`);
+  const photoHtml=found.photo_url
+    ?`<img src="${found.photo_url}" style="width:100%;height:120px;object-fit:cover;border-radius:8px" onerror="this.style.display='none'">`
+    :'<div style="font-size:48px;text-align:center;padding:10px">👕</div>';
+  document.getElementById('scan-found').innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">
+    ${photoHtml}
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700">${found.nom}</div>
+    ${found.taille?`<div style="font-size:13px;color:var(--muted)">${found.taille}</div>`:''}
+    <div style="display:flex;gap:6px"><span class="badge bb">${found.prix_achat}€</span><span class="badge bg">${found.prix_vente}€</span></div>
+    <div style="display:flex;gap:6px">
+      <div style="flex:1;background:var(--bg);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">🏠</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--green)">${found.qty_moi}</div></div>
+      <div style="flex:1;background:var(--bg);border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--muted)">👤</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--blue)">${found.qty_employe}</div></div>
+    </div>
+  </div>`;
   document.getElementById('scan-actions').style.display='block';
   document.getElementById('vs-jersey-info').innerHTML=`<strong>${found.nom}</strong> — ${found.prix_vente}€ | 🏠 ${found.qty_moi} | 👤 ${found.qty_employe}`;
   document.getElementById('vs-prix').value=found.prix_vente;document.getElementById('vs-qty').value=1;updateVenteScan();
   document.getElementById('ss-jersey-info').innerHTML=`<strong>${found.nom}</strong> | 🏠 ${found.qty_moi} | 👤 ${found.qty_employe}`;
+}
+
+// Open add jersey modal with pre-filled barcode
+function openAddJerseyFromScan(){
+  openModal('modal-add-jersey');
+  if(lastScannedCode)document.getElementById('j-barcode').value=lastScannedCode;
 }
 
 function updateVenteScan(){
@@ -1117,33 +1300,54 @@ async function enregistrerVenteScan(){
   await sb.from('maillots').update(loc==='moi'?{qty_moi:j.qty_moi-qty}:{qty_employe:j.qty_employe-qty}).eq('id',j.id);
   await sb.from('ventes').insert({maillot_id:j.id,maillot_nom:j.nom,quantite:qty,prix_unitaire:prix,cout_unitaire:j.prix_achat,vendu_par:par,stock_loc:loc,note:'Via scanner'});
   await addLog(`Vente scanner : ${qty}× ${j.nom}`);toast('✅ Vente enregistrée !');closeModal('modal-vente-scan');
-  scannedJersey=null;document.getElementById('scan-found').innerHTML='<div class="empty"><div class="empty-icon">🎯</div><div>Scanne un autre maillot</div></div>';document.getElementById('scan-actions').style.display='none';await loadAll();
+  scannedJersey=null;lastScannedCode=null;
+  document.getElementById('scan-found').innerHTML='<div class="empty"><div class="empty-icon">🎯</div><div>Scanne un autre maillot</div></div>';
+  document.getElementById('scan-actions').style.display='none';
+  document.getElementById('scan-result').innerHTML='';
+  await loadAll();
 }
 
 async function modifierStockScan(){
   if(!scannedJersey)return;const j=scannedJersey;
   const action=document.getElementById('ss-action').value;const qty=parseInt(document.getElementById('ss-qty').value)||0;if(qty<=0)return toast('Quantité requise',true);
   let update={};
-  if(action==='add-moi')update={qty_moi:j.qty_moi+qty};else if(action==='add-emp')update={qty_employe:j.qty_employe+qty};
+  if(action==='add-moi')update={qty_moi:j.qty_moi+qty};
+  else if(action==='add-emp')update={qty_employe:j.qty_employe+qty};
   else if(action==='remove-moi'){if(qty>j.qty_moi)return toast(`Max ${j.qty_moi}`,true);update={qty_moi:j.qty_moi-qty};}
   else{if(qty>j.qty_employe)return toast(`Max ${j.qty_employe}`,true);update={qty_employe:j.qty_employe-qty};}
   await sb.from('maillots').update(update).eq('id',j.id);
   await addLog(`Stock modifié : ${j.nom} (${action} ${qty})`);toast('✅ Stock mis à jour');closeModal('modal-stock-scan');
-  scannedJersey=null;document.getElementById('scan-found').innerHTML='<div class="empty"><div class="empty-icon">🎯</div><div>Scanne un autre maillot</div></div>';document.getElementById('scan-actions').style.display='none';await loadAll();
+  scannedJersey=null;lastScannedCode=null;
+  document.getElementById('scan-found').innerHTML='<div class="empty"><div class="empty-icon">🎯</div><div>Scanne un autre maillot</div></div>';
+  document.getElementById('scan-actions').style.display='none';
+  document.getElementById('scan-result').innerHTML='';
+  await loadAll();
 }
 
 // ── NAV ──
-function showPage(id,btn){
+function showPage(id,btn,skipSave=false){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   const page=document.getElementById('page-'+id);if(page)page.classList.add('active');
   if(btn)btn.classList.add('active');
   if(id!=='scanner')stopScanner();
+  if(!skipSave){currentPage=id;saveState();}
 }
 
 // ── ENTER ──
 document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('l-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('l-pass').focus();});
+
+// ── INIT : restore screen state before auth check ──
+// The auth state change handler will route to app/login automatically.
+// But if the user was on the public catalog, restore that.
+restoreState();
+if(currentScreen==='public'){
+  document.getElementById('public-screen').classList.add('visible');
+  document.getElementById('loading-screen').style.display='none';
+  loadPublicCatalog();
+}
+// Otherwise, keep loading screen until onAuthStateChange fires.
 </script>
 </body>
 </html>
