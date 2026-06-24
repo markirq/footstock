@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fichier de révision — Oral de Français</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2E9D8;
+    --card:#FBF6EA;
+    --ink:#241F1C;
+    --ink-soft:#5B5247;
+    --ink-faint:#8A8071;
+    --rule:#C2402E;
+    --line:rgba(36,31,28,0.14);
+    --idee:#A6792B;
+    --poesie:#2F5570;
+    --roman:#3F6B45;
+    --theatre:#7A2331;
+    --accent: var(--idee);
+    --shadow: 0 1px 0 rgba(36,31,28,0.05), 0 6px 16px -10px rgba(36,31,28,0.35);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      repeating-linear-gradient(180deg, transparent 0 38px, rgba(36,31,28,0.05) 38px 39px),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+  ::selection{ background: var(--rule); color:#fff; }
+  :focus-visible{ outline: 2px solid var(--rule); outline-offset: 2px; border-radius: 2px; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
+  .mono{ font-family:'IBM Plex Mono', monospace; letter-spacing:.02em; }
+
+  header.top{
+    position:sticky; top:0; z-index:30; background: var(--paper);
+    border-bottom: 1px solid var(--line); padding: 16px clamp(16px,4vw,40px);
+  }
+  .brand{ display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .brand .mark{ font-family:'Fraunces', serif; font-weight:700; font-size:clamp(20px,3vw,27px); letter-spacing:-0.01em; }
+  .brand .sub{ font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.12em; }
+
+  .crumbs{ margin-top:10px; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft); display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .crumbs button{ background:none; border:none; color:var(--ink-soft); font-family:inherit; font-size:inherit; padding:2px 0; }
+  .crumbs button:hover{ color: var(--accent); text-decoration:underline; }
+  .crumbs .sep{ color:var(--ink-faint); }
+  .crumbs .current{ color:var(--ink); }
+
+  main{ max-width:1080px; margin:0 auto; padding: 30px clamp(16px,4vw,40px) 80px; }
+  .view{ display:none; }
+  .view.active{ display:block; animation: rise .3s ease; }
+  @keyframes rise{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  .view-title{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(22px,3vw,30px); margin:0 0 6px; }
+  .view-sub{ color:var(--ink-soft); font-size:14px; margin:0 0 28px; }
+
+  /* ---- grid of cards (categories / choice / list) ---- */
+  .grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap:16px; }
+  .grid.two{ grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); max-width:720px; }
+
+  .tile{
+    position:relative; display:block; width:100%; text-align:left;
+    background:var(--card); border:1px solid var(--line); border-radius:3px;
+    padding:20px 18px 18px; box-shadow: var(--shadow);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .tile::before{
+    content:""; position:absolute; top:10px; left:10px; width:9px; height:9px; border-radius:50%;
+    background: var(--paper); border:1px solid var(--line); box-shadow: inset 0 1px 2px rgba(0,0,0,.18);
+  }
+  .tile::after{
+    content:""; position:absolute; left:16px; right:16px; top:40px; height:1px;
+    background: var(--rule); opacity:.55;
+  }
+  .tile:hover{ transform: translateY(-2px); box-shadow: 0 2px 0 rgba(36,31,28,0.06), 0 14px 24px -14px rgba(36,31,28,0.45); }
+
+  .tile .num{ font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; letter-spacing:.08em; color:var(--accent); margin-left:18px; }
+  .tile h3{ font-family:'Fraunces', serif; font-size:18px; line-height:1.3; margin:18px 0 6px; font-weight:600; }
+  .tile p{ font-size:12.5px; color:var(--ink-soft); margin:0; line-height:1.45; }
+
+  .tile.cat{ --accent-local: var(--idee); }
+  .tile.cat[data-accent="idee"]{ --accent: var(--idee); }
+  .tile.cat[data-accent="poesie"]{ --accent: var(--poesie); }
+  .tile.cat[data-accent="roman"]{ --accent: var(--roman); }
+  .tile.cat[data-accent="theatre"]{ --accent: var(--theatre); }
+
+  .tile.bristol{ background: linear-gradient(180deg, rgba(255,255,255,.5), var(--card)); }
+  .tile.bristol h3::before{ content:"🗂  "; }
+
+  .tile .tag{ font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; letter-spacing:.08em; color:var(--accent); margin-left:18px; }
+
+  /* ---- reading view ---- */
+  .doc-block{ margin-bottom:26px; }
+  .doc-block-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+  .doc-block-head .lbl{ font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); }
+  .doc-actions{ display:flex; gap:8px; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    padding:6px 10px; border:1px solid var(--line); border-radius:2px; background:var(--paper);
+    color:var(--ink); display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  }
+  .btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .frame-wrap{ border:1px solid var(--line); border-radius:3px; overflow:hidden; background:#3a3530; box-shadow:var(--shadow); }
+  .frame-wrap iframe{ width:100%; height:62vh; min-height:420px; border:none; display:block; background:#fff; }
+
+  .back-row{ margin-bottom:18px; }
+  .back-btn{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);
+    background:none; border:none; display:inline-flex; align-items:center; gap:6px; padding:0;
+  }
+  .back-btn:hover{ color:var(--accent); }
+
+  footer.foot{ text-align:center; padding:10px 16px 50px; font-size:11.5px; color:var(--ink-faint); font-family:'IBM Plex Mono', monospace; letter-spacing:.04em; }
+
+  @media (max-width:600px){
+    .frame-wrap iframe{ height:52vh; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="mark">Fichier de révision</span>
+    <span class="sub">Oral de français</span>
+  </div>
+  <nav class="crumbs" id="crumbs"></nav>
+</header>
+
+<main>
+  <section class="view" id="view-home">
+    <h1 class="view-title">4 dossiers</h1>
+    <p class="view-sub">Choisis un objet d'étude pour ouvrir son dossier.</p>
+    <div class="grid" id="homeGrid"></div>
+  </section>
+
+  <section class="view" id="view-choice">
+    <h1 class="view-title" id="choiceTitle"></h1>
+    <p class="view-sub">Œuvre intégrale ou texte associé ?</p>
+    <div class="grid two" id="choiceGrid"></div>
+  </section>
+
+  <section class="view" id="view-list">
+    <h1 class="view-title" id="listTitle"></h1>
+    <p class="view-sub" id="listSub"></p>
+    <div class="grid" id="listGrid"></div>
+  </section>
+
+  <section class="view" id="view-bristol">
+    <div class="back-row"><button class="back-btn" id="bristolBack">← Retour</button></div>
+    <h1 class="view-title" id="bristolTitle">Fiches bristol</h1>
+    <div class="doc-block">
+      <div class="doc-block-head">
+        <span class="lbl">Cartes scannées</span>
+        <div class="doc-actions" id="bristolActions"></div>
+      </div>
+      <div class="frame-wrap"><iframe id="bristolFrame" title="Fiches bristol"></iframe></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-reading">
+    <div class="back-row"><button class="back-btn" id="readingBack">← Retour</button></div>
+    <h1 class="view-title" id="readingTitle"></h1>
+    <div class="doc-block">
+      <div class="doc-block-head">
+        <span class="lbl">Texte</span>
+        <div class="doc-actions" id="tActions"></div>
+      </div>
+      <div class="frame-wrap"><iframe id="tFrame" title="Texte"></iframe></div>
+    </div>
+    <div class="doc-block">
+      <div class="doc-block-head">
+        <span class="lbl">Lecture linéaire</span>
+        <div class="doc-actions" id="llActions"></div>
+      </div>
+      <div class="frame-wrap"><iframe id="llFrame" title="Lecture linéaire"></iframe></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">FICHIER DE RÉVISION — 4 DOSSIERS — usage personnel</footer>
+
+<script>
+const CATALOG = [
+  {
+    "label": "Littérature d'idée",
+    "accent": "idee",
+    "works": [
+      {
+        "label": "Discours de la Servitude Volontaire",
+        "bristol_path": null,
+        "texts": [
+          {
+            "num": "1",
+            "title": "Je voudrai seulement comprendre",
+            "ll_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Discours%20de%20la%20Servitude%20Volontaire/LL1%20-%20Je%20voudrai%20seulement%20comprendre.pdf",
+            "t_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Discours%20de%20la%20Servitude%20Volontaire/T1.pdf"
+          },
+          {
+            "num": "2",
+            "title": "Les bêtes brutes en chaire",
+            "ll_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Discours%20de%20la%20Servitude%20Volontaire/LL2%20-%20Les%20b%C3%AAtes%20brutes%20en%20chaire.pdf",
+            "t_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Discours%20de%20la%20Servitude%20Volontaire/T2.pdf"
+          },
+          {
+            "num": "3",
+            "title": "L’exemple de Cyrus",
+            "ll_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Discours%20de%20la%20Servitude%20Volontaire/LL3%20-%20L%27exemple%20de%20Cyrus.pdf",
+            "t_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Discours%20de%20la%20Servitude%20Volontaire/T3.pdf"
+          }
+        ],
+        "is_associe": false
+      },
+      {
+        "label": "Texte associé",
+        "bristol_path": null,
+        "texts": [
+          {
+            "num": "4",
+            "title": "Le Loup et le Chien",
+            "ll_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Texte%20associ%C3%A9/LL4%20-%20Le%20Loup%20et%20le%20Chien.pdf",
+            "t_path": "oral-francais/Litt%C3%A9rature%20d%27id%C3%A9e/Texte%20associ%C3%A9/T4.pdf"
+          }
+        ],
+        "is_associe": true
+      }
+    ]
+  },
+  {
+    "label": "Poésie",
+    "accent": "poesie",
+    "works": [
+      {
+        "label": "Les Cahiers de Douai",
+        "bristol_path": null,
+        "texts": [
+          {
+            "num": "1",
+            "title": "Le Mal",
+            "ll_path": "oral-francais/Po%C3%A9sie/Les%20Cahiers%20de%20Douai/LL1%20-%20Le%20Mal.pdf",
+            "t_path": "oral-francais/Po%C3%A9sie/Les%20Cahiers%20de%20Douai/T1.pdf"
+          },
+          {
+            "num": "2",
+            "title": "Au Cabaret Vert",
+            "ll_path": "oral-francais/Po%C3%A9sie/Les%20Cahiers%20de%20Douai/LL2%20-%20Au%20Cabaret%20Vert.pdf",
+            "t_path": "oral-francais/Po%C3%A9sie/Les%20Cahiers%20de%20Douai/T2.pdf"
+          },
+          {
+            "num": "3",
+            "title": "Ma bohème",
+            "ll_path": "oral-francais/Po%C3%A9sie/Les%20Cahiers%20de%20Douai/LL3%20-%20Ma%20boh%C3%A8me.pdf",
+            "t_path": "oral-francais/Po%C3%A9sie/Les%20Cahiers%20de%20Douai/T3.pdf"
+          }
+        ],
+        "is_associe": false
+      },
+      {
+        "label": "Texte associé",
+        "bristol_path": null,
+        "texts": [
+          {
+            "num": "4",
+            "title": "A la ligne",
+            "ll_path": "oral-francais/Po%C3%A9sie/Texte%20associ%C3%A9/LL4%20-%20A%20la%20ligne%20.pdf",
+            "t_path": "oral-francais/Po%C3%A9sie/Texte%20associ%C3%A9/T4.pdf"
+          }
+        ],
+        "is_associe": true
+      }
+    ]
+  },
+  {
+    "label": "Roman",
+    "accent": "roman",
+    "works": [
+      {
+        "label": "Sido et les Vrilles de la Vigne",
+        "bristol_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/Fiches%20Bristoles.pdf",
+        "texts": [
+          {
+            "num": "1",
+            "title": "Les points cardinaux",
+            "ll_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/LL1%20-%20Les%20points%20cardinaux.pdf",
+            "t_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/T1.pdf"
+          },
+          {
+            "num": "2",
+            "title": "Le Merle",
+            "ll_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/LL2%20-%20Le%20Merle.pdf",
+            "t_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/T2.pdf"
+          },
+          {
+            "num": "3",
+            "title": "Toby-Chien",
+            "ll_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/LL3%20-%20Toby-Chien%20.pdf",
+            "t_path": "oral-francais/Roman/Sido%20et%20les%20Vrilles%20de%20la%20Vigne/T3.pdf"
+          }
+        ],
+        "is_associe": false
+      },
+      {
+        "label": "Texte associé",
+        "bristol_path": "oral-francais/Roman/Texte%20associ%C3%A9/Fiches%20Bristoles.pdf",
+        "texts": [
+          {
+            "num": "4",
+            "title": "Le Loup",
+            "ll_path": "oral-francais/Roman/Texte%20associ%C3%A9/LL4%20-%20Le%20Loup.pdf",
+            "t_path": "oral-francais/Roman/Texte%20associ%C3%A9/T4.pdf"
+          }
+        ],
+        "is_associe": true
+      }
+    ]
+  },
+  {
+    "label": "Théâtre",
+    "accent": "theatre",
+    "works": [
+      {
+        "label": "On ne badine pas avec l’amour",
+        "bristol_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/Fiches%20Bristoles.pdf",
+        "texts": [
+          {
+            "num": "1",
+            "title": "Les tirades de Perdican",
+            "ll_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/LL1%20-%20Les%20tirades%20de%20Perdican.pdf",
+            "t_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/T1.pdf"
+          },
+          {
+            "num": "2",
+            "title": "Le monologue de Perdican",
+            "ll_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/LL2%20-%20Le%20monologue%20de%20Perdican.pdf",
+            "t_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/T2.pdf"
+          },
+          {
+            "num": "3",
+            "title": "Le double rendez-vous à la fontaine",
+            "ll_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/LL3%20-%20Le%20double%20rendez-vous%20%C3%A0%20la%20fontaine.pdf",
+            "t_path": "oral-francais/Th%C3%A9%C3%A2tre/On%20ne%20badine%20pas%20avec%20l%27amour/T3.pdf"
+          }
+        ],
+        "is_associe": false
+      },
+      {
+        "label": "Texte associé",
+        "bristol_path": "oral-francais/Th%C3%A9%C3%A2tre/Texte%20associ%C3%A9/Fiches%20Bristoles.pdf",
+        "texts": [
+          {
+            "num": "4",
+            "title": "La scène du balcon",
+            "ll_path": "oral-francais/Th%C3%A9%C3%A2tre/Texte%20associ%C3%A9/LL4%20-%20La%20sc%C3%A8ne%20du%20balcon.pdf",
+            "t_path": "oral-francais/Th%C3%A9%C3%A2tre/Texte%20associ%C3%A9/T4.pdf"
+          }
+        ],
+        "is_associe": true
+      }
+    ]
+  }
+];
+
+/* ---------- routing ---------- */
+function parseHash(){
+  const h = location.hash.replace(/^#/, '');
+  const params = new URLSearchParams(h);
+  const c = params.has('c') ? parseInt(params.get('c')) : null;
+  const w = params.has('w') ? parseInt(params.get('w')) : null;
+  const t = params.has('t') ? params.get('t') : null;
+  const b = params.has('b');
+  return { c, w, t, b };
+}
+function go(state){
+  const p = new URLSearchParams();
+  if(state.c !== null && state.c !== undefined) p.set('c', state.c);
+  if(state.w !== null && state.w !== undefined) p.set('w', state.w);
+  if(state.t) p.set('t', state.t);
+  if(state.b) p.set('b', '1');
+  location.hash = p.toString();
+}
+
+const views = ['home','choice','list','bristol','reading'];
+function showView(name){
+  views.forEach(v=> document.getElementById('view-'+v).classList.toggle('active', v===name));
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function setAccent(catIdx){
+  const accent = catIdx!=null ? CATALOG[catIdx].accent : 'idee';
+  document.documentElement.style.setProperty('--accent', `var(--${accent})`);
+}
+
+function renderCrumbs(parts){
+  const el = document.getElementById('crumbs');
+  el.innerHTML = '';
+  parts.forEach((part, i)=>{
+    if(i>0){
+      const sep = document.createElement('span');
+      sep.className = 'sep'; sep.textContent = '/';
+      el.appendChild(sep);
+    }
+    if(i === parts.length-1){
+      const span = document.createElement('span');
+      span.className = 'current'; span.textContent = part.label;
+      el.appendChild(span);
+    } else {
+      const btn = document.createElement('button');
+      btn.textContent = part.label;
+      btn.addEventListener('click', ()=> go(part.state));
+      el.appendChild(btn);
+    }
+  });
+}
+
+/* ---------- views ---------- */
+function renderHome(){
+  setAccent(null);
+  renderCrumbs([{label:'Accueil', state:{}}]);
+  const grid = document.getElementById('homeGrid');
+  grid.innerHTML = '';
+  CATALOG.forEach((cat, i)=>{
+    const total = cat.works.reduce((s,w)=> s + w.texts.length + (w.bristol_path?1:0), 0);
+    const btn = document.createElement('button');
+    btn.className = 'tile cat';
+    btn.dataset.accent = cat.accent;
+    btn.innerHTML = `<span class="num">Dossier ${String(i+1).padStart(2,'0')}</span><h3>${cat.label}</h3><p>${total} document${total>1?'s':''}</p>`;
+    btn.addEventListener('click', ()=> go({c:i}));
+    grid.appendChild(btn);
+  });
+  showView('home');
+}
+
+function renderChoice(c){
+  const cat = CATALOG[c];
+  setAccent(c);
+  renderCrumbs([{label:'Accueil', state:{}}, {label:cat.label, state:{c}}]);
+  document.getElementById('choiceTitle').textContent = cat.label;
+  const grid = document.getElementById('choiceGrid');
+  grid.innerHTML = '';
+  cat.works.forEach((w, wi)=>{
+    const count = w.texts.length + (w.bristol_path?1:0);
+    const btn = document.createElement('button');
+    btn.className = 'tile';
+    btn.innerHTML = `<span class="tag">${w.is_associe ? 'Texte associé' : 'Œuvre intégrale'}</span><h3>${w.label}</h3><p>${count} document${count>1?'s':''}</p>`;
+    btn.addEventListener('click', ()=> go({c, w:wi}));
+    grid.appendChild(btn);
+  });
+  showView('choice');
+}
+
+function renderList(c, w){
+  const cat = CATALOG[c];
+  const work = cat.works[w];
+  setAccent(c);
+  renderCrumbs([
+    {label:'Accueil', state:{}},
+    {label:cat.label, state:{c}},
+    {label:work.label, state:{c,w}}
+  ]);
+  document.getElementById('listTitle').textContent = work.label;
+  document.getElementById('listSub').textContent = work.is_associe ? 'Texte associé' : 'Œuvre intégrale';
+  const grid = document.getElementById('listGrid');
+  grid.innerHTML = '';
+  if(work.bristol_path){
+    const btn = document.createElement('button');
+    btn.className = 'tile bristol';
+    btn.innerHTML = `<span class="tag">FB</span><h3>Fiches bristol</h3><p>Cartes de révision scannées</p>`;
+    btn.addEventListener('click', ()=> go({c, w, b:1}));
+    grid.appendChild(btn);
+  }
+  work.texts.forEach(txt=>{
+    const btn = document.createElement('button');
+    btn.className = 'tile';
+    btn.innerHTML = `<span class="tag">T${txt.num}</span><h3>${txt.title}</h3><p>Texte + lecture linéaire</p>`;
+    btn.addEventListener('click', ()=> go({c, w, t:txt.num}));
+    grid.appendChild(btn);
+  });
+  showView('list');
+}
+
+function renderBristol(c, w){
+  const cat = CATALOG[c];
+  const work = cat.works[w];
+  setAccent(c);
+  renderCrumbs([
+    {label:'Accueil', state:{}},
+    {label:cat.label, state:{c}},
+    {label:work.label, state:{c,w}},
+    {label:'Fiches bristol', state:{c,w,b:1}}
+  ]);
+  document.getElementById('bristolTitle').textContent = `${work.label} — Fiches bristol`;
+  document.getElementById('bristolFrame').src = work.bristol_path;
+  document.getElementById('bristolActions').innerHTML = `
+    <a class="btn" href="${work.bristol_path}" target="_blank" rel="noopener">↗ Nouvel onglet</a>
+    <a class="btn" href="${work.bristol_path}" download>⬇ Télécharger</a>
+  `;
+  document.getElementById('bristolBack').onclick = ()=> go({c, w});
+  showView('bristol');
+}
+
+function renderReading(c, w, tNum){
+  const cat = CATALOG[c];
+  const work = cat.works[w];
+  const txt = work.texts.find(t=> t.num === String(tNum));
+  if(!txt){ go({c,w}); return; }
+  setAccent(c);
+  renderCrumbs([
+    {label:'Accueil', state:{}},
+    {label:cat.label, state:{c}},
+    {label:work.label, state:{c,w}},
+    {label:txt.title, state:{c,w,t:txt.num}}
+  ]);
+  document.getElementById('readingTitle').textContent = txt.title;
+
+  document.getElementById('tFrame').src = txt.t_path || '';
+  document.getElementById('tActions').innerHTML = txt.t_path ? `
+    <a class="btn" href="${txt.t_path}" target="_blank" rel="noopener">↗ Nouvel onglet</a>
+    <a class="btn" href="${txt.t_path}" download>⬇ Télécharger</a>
+  ` : '';
+
+  document.getElementById('llFrame').src = txt.ll_path || '';
+  document.getElementById('llActions').innerHTML = txt.ll_path ? `
+    <a class="btn" href="${txt.ll_path}" target="_blank" rel="noopener">↗ Nouvel onglet</a>
+    <a class="btn" href="${txt.ll_path}" download>⬇ Télécharger</a>
+  ` : '';
+
+  document.getElementById('readingBack').onclick = ()=> go({c, w});
+  showView('reading');
+}
+
+/* ---------- router ---------- */
+function render(){
+  const {c, w, t, b} = parseHash();
+  if(c===null || isNaN(c) || !CATALOG[c]){ renderHome(); return; }
+  if(w===null || isNaN(w) || !CATALOG[c].works[w]){ renderChoice(c); return; }
+  if(b){ renderBristol(c, w); return; }
+  if(t){ renderReading(c, w, t); return; }
+  renderList(c, w);
+}
+
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
